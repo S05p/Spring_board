@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="/main.css">
+</head>
+<body>
+    <div th:replace="~{nav.html :: navbar}"></div>
+
+    <form th:action="@{'/update/'+ ${post.id}}" method="POST">
+        <input name="title" type="text" th:value="${post.title}">
+        <input name="content" type="text" th:value="${post.content}">
+        <input type="submit">
+    </form>
+</body>
+</html>

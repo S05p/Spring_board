@@ -12,11 +12,10 @@ import lombok.ToString;
 @Entity
 @ToString
 public class Post {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     public Long id;
-    public String username;
-    public String nickname;
-    public String password;
+    public String title;
+    public String content;
+    public Long user_id;
 }

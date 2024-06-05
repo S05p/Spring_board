@@ -1,0 +1,46 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="/main.css">
+    <title>Document</title>
+</head>
+<body>
+
+<div th:replace="~{nav.html :: navbar}"></div>
+
+<div class="card" th:each="i: ${results}" th:onclick="|location.href='/detail/${i.id}'|">
+        <img src="https://placehold.co/300">
+        <div>
+            <h4 th:text="${i.title}"></h4>
+            <p th:text="${i.content}"></p>
+            <a th:href="'/update/'+${i.id}">수정</a>
+            <a th:href="'/delete/'+${i.id}">삭제</a>
+        </div>
+</div>
+<div>
+    <ul class="pagination">
+        <!-- Previous button -->
+        <li th:if="${currentPage > 1}">
+            <a th:href="@{/list/1}">첫 페이지</a>
+        </li>
+
+        <!-- Page numbers -->
+        <li th:each="pageNum : ${#numbers.sequence(startPage, endPage)}">
+            <a th:if="${pageNum != currentPage}" th:href="@{/list/{page}(page=${pageNum})}" th:text="${pageNum}"></a>
+            <span th:if="${pageNum == currentPage}" th:text="${pageNum}" class="active"></span>
+        </li>
+
+        <!-- Next button -->
+        <li th:if="${currentPage < totalPages}">
+            <a th:href="@{/list/{page}(page=${currentPage + 10})}">다음 페이지</a>
+        </li>
+
+    </ul>
+</div>
+
+</body>
+</html>

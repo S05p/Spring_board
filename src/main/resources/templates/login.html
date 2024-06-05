@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <link rel="stylesheet" href="/main.css">
+</head>
+<body>
+
+<div th:replace="~{nav.html :: navbar}"></div>
+
+<div th:if="${param.error}">
+  <h4>아이디나 비번 틀림</h4>
+</div>
+
+<div>
+  <form action="/login" method="POST">
+    <input name="username" type="text" placeholder="이름">
+    <input name="password" type="password" placeholder="비밀번호">
+    <input type="submit">
+  </form>
+</div>
+
+</body>
+</html>

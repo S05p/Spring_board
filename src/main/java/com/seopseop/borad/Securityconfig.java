@@ -22,6 +22,7 @@ public class Securityconfig {
                         .failureUrl("/user/login")
                 )
                 .logout((logout) -> logout.logoutUrl("/user/logout"));
+        http.csrf((csrf) -> csrf.disable());
         return http.build();
     }
     @Bean
