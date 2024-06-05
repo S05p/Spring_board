@@ -93,8 +93,11 @@ public class PostController {
         return "redirect:/list/1";
     }
 
-    @PostMapping("/delete")
-    public String delete () {
+    @GetMapping("/delete/{id}")
+    public String delete (@PathVariable Long id) {
+        Optional<Post> result = postRepository.findById(id);
+        Post post = result.get();
+        postRepository.delete(post);
         return "redirect:/list/1";
     }
 }

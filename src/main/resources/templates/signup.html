@@ -9,8 +9,12 @@
 
     <div th:replace="~{nav.html :: navbar}"></div>
 
+    <div th:if="${param.error}">
+        <h4 th:text="${param.error}"></h4>
+    </div>
+
     <div>
-        <form action="/signup" method="POST">
+        <form action="/user/signup" method="POST">
             <input name="username" type="text" placeholder="이름">
             <input name="nickname" type="text" placeholder="닉네임">
             <input name="password1" type="password" placeholder="비밀번호">

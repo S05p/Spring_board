@@ -17,7 +17,7 @@ public class Securityconfig {
                         .requestMatchers("/**").permitAll()
                 )
                 .formLogin((form) -> form
-                        .loginPage("/login")
+                        .loginPage("/user/login")
                         .defaultSuccessUrl("/list/1")
                         .failureUrl("/user/login")
                 )

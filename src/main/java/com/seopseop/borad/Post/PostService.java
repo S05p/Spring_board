@@ -1,6 +1,4 @@
 package com.seopseop.borad.Post;
-
-
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
