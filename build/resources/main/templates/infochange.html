@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="/main.css">
+</head>
+<body>
+
+<div th:replace="~{nav.html :: navbar}"></div>
+
+<div th:if="${param.error}">
+    <h4 th:text="${param.error}"></h4>
+</div>
+
+<div>
+    <form action="/user/infochange" method="POST">
+        <input name="nickname" type="text" placeholder="닉네임">
+        <input type="submit" value="회원정보 변경">
+    </form>
+</div>
+
+</body>
+</html>

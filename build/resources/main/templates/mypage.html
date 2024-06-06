@@ -10,6 +10,11 @@
 
     <div>
         <h4>마이페이지</h4>
+        <p th:text="${user.username}"></p>
+        <p th:text="${user.nickname}"></p>
+        <a href="/user/infochange">닉네임변경</a>
+        <a href="/user/passwordchange">비밀번호 변경</a>
+
     </div>
 
 </body>
