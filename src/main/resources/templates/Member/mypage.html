@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="/main.css">
+</head>
+<body>
+    <div th:replace="~{nav.html ::navbar}"></div>
+
+    <div>
+        <h4>마이페이지</h4>
+        <p th:text="${user.username}"></p>
+        <p th:text="${user.nickname}"></p>
+        <a href="/user/infochange">닉네임변경</a>
+        <a href="/user/passwordchange">비밀번호 변경</a>
+    </div>
+
+    <div class="card" th:each="i: ${results}" th:onclick="|location.href='/detail/${i.id}'|">
+        <img src="https://placehold.co/300">
+        <div>
+            <h4 th:text="${i.title}"></h4>
+            <p th:text="${i.content}"></p>
+            <a th:href="'/update/'+${i.id}">수정</a>
+            <a th:href="'/delete/'+${i.id}">삭제</a>
+        </div>
+    </div>
+    <div>
+        <ul class="pagination">
+            <!-- Previous button -->
+            <li th:if="${currentPage > 1}">
+                <a th:href="@{/user/mypage/1}">첫 페이지</a>
+            </li>
+
+            <!-- Page numbers -->
+            <li th:each="pageNum : ${#numbers.sequence(startPage, endPage)}">
+                <a th:if="${pageNum != currentPage}" th:href="@{/user/mypage/{page}(page=${pageNum})}" th:text="${pageNum}"></a>
+                <span th:if="${pageNum == currentPage}" th:text="${pageNum}" class="active"></span>
+            </li>
+
+            <!-- Next button -->
+            <li th:if="${currentPage < totalPages}">
+                <a th:href="@{/user/mypage/{page}(page=${currentPage + 10})}">다음 페이지</a>
+            </li>
+
+        </ul>
+    </div>
+
+
+</body>
+</html>

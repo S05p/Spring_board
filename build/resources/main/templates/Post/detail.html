@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="/main.css">
+</head>
+<body>
+    <div th:replace="~{nav.html :: navbar}"></div>
+
+    <div>
+        <h4 th:text="${post.title}"></h4>
+        <p th:text="${post.content}"></p>
+        <p th:text="${post.member.nickname}"> </p>
+    </div>
+
+    <div th:if="${results != null}">
+        <div th:each="i: ${results}">
+            <p th:text="${i.content}"></p>
+        </div>
+    </div>
+
+    <div th:if="${user != null}">
+        <form th:action="@{'/detail/'+${post.id}+'/create_comment'}" method="POST">
+            <input type="text" name="content">
+            <input type="submit" value="댓글작성">
+        </form>
+    </div>
+
+    <div th:if="${results != null}">
+        <div>
+            <ul class="pagination">
+                <!-- Previous button -->
+                <li th:if="${currentPage > 1}">
+                    <a th:href="@{'/detail/'+${post.id}}">첫 페이지</a>
+                </li>
+
+                <!-- Page numbers -->
+                <li th:each="pageNum : ${#numbers.sequence(startPage, endPage)}">
+                    <a th:if="${pageNum != currentPage}" th:href="@{'/detail/' + ${post.id} + '?comment_page=' + ${pageNum}}" th:text="${pageNum}"></a>
+                    <span th:if="${pageNum == currentPage}" th:text="${pageNum}" class="active"></span>
+                </li>
+
+                <!-- Next button -->
+                <li th:if="${currentPage < totalPages  && endPage >= currentPage +10}">
+                    <a th:href="@{'/detail/' + ${post.id} + '?comment_page=' + ${currentPage + 10}}">다음 페이지</a>
+                </li>
+
+                <li th:if="${currentPage < totalPages && endPage < currentPage +10}">
+                    <a th:href="@{'/detail/' + ${post.id} + '?comment_page=' + ${endPage}}">다음 페이지</a>
+                </li>
+
+            </ul>
+        </div>
+    </div>
+
+</body>
+</html>

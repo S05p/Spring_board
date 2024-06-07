@@ -1,14 +1,17 @@
 package com.seopseop.borad.Member;
+import com.seopseop.borad.Post.Post;
+import com.seopseop.borad.Post.PostRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -18,11 +21,12 @@ public class MemberController {
 
     private final MemberRepository memberRepository;
     private final MemberService memberService;
+    private final PostRepository postRepository;
 
     @GetMapping("/signup")
     public String GetSignup (Authentication auth) {
         if (auth == null || !auth.isAuthenticated()) {
-            return "signup.html";
+            return "Member/signup.html";
         }
         return "redirect:/list/1";
     }
@@ -45,7 +49,8 @@ public class MemberController {
 
     @GetMapping("/login")
     public String login() {
-        return "login.html";
+
+        return "Member/login.html";
     }
 
     @GetMapping("/infochange")
@@ -53,7 +58,7 @@ public class MemberController {
         if (auth == null || !auth.isAuthenticated()) {
             return "redirect:/user/login";
         }
-        return "infochange.html";
+        return "Member/infochange.html";
     }
     @PostMapping("/infochange")
     public String PostInfoChange (@RequestParam String nickname,
@@ -78,7 +83,7 @@ public class MemberController {
         if (auth == null || !auth.isAuthenticated()) {
             return "redirect:/user/login";
         }
-        return "passwordchange.html";
+        return "Member/passwordchange.html";
     }
 
     @PostMapping("/passwordchange")
@@ -105,17 +110,46 @@ public class MemberController {
         }
     }
 
-    @GetMapping("/mypage")
+    @GetMapping("/mypage/{page}")
     public String mypage (Authentication auth,
-                          Model model) {
+                          Model model,
+                          @PathVariable Long page) {
 
         if (auth == null || !auth.isAuthenticated()) {
             return "redirect:/user/login";
         }
         Optional<Member> result = memberRepository.findByUsername(auth.getName());
-        var user = result.get();
+        int a = page.intValue();
+
+        if (result.isEmpty()) {
+            return "redirect:/user/login";
+        }
+
+        Member user = result.get();
+
+        Page<Post> results = postRepository.findByMember(user,PageRequest.of(a - 1, 5, Sort.by("id").descending()));
+        int totalPages = results.getTotalPages();
+        int currentPage = a;
+        int startPage = Math.max(1, currentPage - 5);
+        int endPage = Math.min(totalPages, currentPage + 4);
+        if (endPage - startPage < 9) {
+            if (startPage == 1) {
+                endPage = Math.min(startPage + 9, totalPages);
+            } else if (endPage == totalPages) {
+                startPage = Math.max(1, endPage - 9);
+            }
+        }
+        model.addAttribute("results", results.getContent());
+        model.addAttribute("currentPage", currentPage);
+        model.addAttribute("totalPages", totalPages);
+        model.addAttribute("startPage", startPage);
+        model.addAttribute("endPage", endPage);
+        model.addAttribute("hasNext", results.hasNext());
+        model.addAttribute("hasPrevious", results.hasPrevious());
+
+
         model.addAttribute("user",user);
-        return "mypage.html";
+        return "Member/mypage.html";
     }
 
 }

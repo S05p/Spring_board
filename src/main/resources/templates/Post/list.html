@@ -12,7 +12,7 @@
 
 <div th:replace="~{nav.html :: navbar}"></div>
 
-<div class="card" th:each="i: ${results}" th:onclick="|location.href='/detail/${i.id}'|">
+<div class="card" th:each="i: ${results}" th:onclick="|location.href='/detail/${i.id}?comment_page=1'|">
         <img src="https://placehold.co/300">
         <div>
             <h4 th:text="${i.title}"></h4>

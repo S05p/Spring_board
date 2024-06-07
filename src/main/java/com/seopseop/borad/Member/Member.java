@@ -1,11 +1,11 @@
 package com.seopseop.borad.Member;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.seopseop.borad.Comment.Comment;
+import com.seopseop.borad.Post.Post;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import java.util.List;
 
 @Getter
 @Setter
@@ -18,4 +18,11 @@ public class Member {
     public String username;
     public String password;
     public String nickname;
+
+    @OneToMany(mappedBy = "member")
+    public List<Comment> comments;
+
+    @OneToMany(mappedBy = "member")
+    public List<Post> posts;
+
 }

@@ -1,30 +1,28 @@
-package com.seopseop.borad.Post;
-import com.seopseop.borad.Comment.Comment;
+package com.seopseop.borad.Comment;
 import com.seopseop.borad.Member.Member;
+import com.seopseop.borad.Post.Post;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-
-import java.util.List;
+import org.springframework.security.core.parameters.P;
 
 @Getter
 @Setter
 @Entity
 @ToString
-public class Post {
+public class Comment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     public Long id;
-    public String title;
     public String content;
 
     @ManyToOne
     @JoinColumn(name = "member_id",nullable = false)
     public Member member;
 
-    @OneToMany(mappedBy = "post")
-    public List<Comment> comments;
+    @ManyToOne
+    @JoinColumn(name = "post_id",nullable = false)
+    public Post post;
 
 }
-
