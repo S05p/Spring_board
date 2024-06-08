@@ -17,7 +17,7 @@
         <p th:text="${post.member.nickname}"> </p>
     </div>
 
-    <div th:if="${results != null}">
+    <div th:if="${not results.empty}">
         <div th:each="i: ${results}">
             <p th:text="${i.content}"></p>
         </div>
@@ -30,7 +30,7 @@
         </form>
     </div>
 
-    <div th:if="${results != null}">
+    <div th:if="${not results.empty}">
         <div>
             <ul class="pagination">
                 <!-- Previous button -->

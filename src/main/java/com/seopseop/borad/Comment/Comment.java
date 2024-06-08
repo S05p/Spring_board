@@ -7,6 +7,9 @@ import lombok.Setter;
 import lombok.ToString;
 import org.springframework.security.core.parameters.P;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Getter
 @Setter
 @Entity
@@ -24,5 +27,12 @@ public class Comment {
     @ManyToOne
     @JoinColumn(name = "post_id",nullable = false)
     public Post post;
+
+    @ManyToOne
+    @JoinColumn(name = "parent_comment")
+    public Comment parentComment;
+
+    @OneToMany(mappedBy = "parentComment", cascade = CascadeType.ALL)
+    private List<Comment> replies = new ArrayList<>();
 
 }

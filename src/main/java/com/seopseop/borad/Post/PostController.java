@@ -8,7 +8,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -77,7 +76,12 @@ public class PostController {
             return "redirect:/list/1";
         }
         model.addAttribute("post",result.get());
-        model.addAttribute("user",auth.getName());
+
+        if (auth == null || !auth.isAuthenticated()) {
+            model.addAttribute("user",null);
+        } else {
+            model.addAttribute("user",auth.getName());
+        }
         int a = page.intValue();
 
         Page<Comment> results = commentRepository.findByPost(result.get(),PageRequest.of(a - 1, 5,Sort.by("id").descending()));

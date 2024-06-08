@@ -3,10 +3,8 @@ import com.seopseop.borad.Member.Member;
 import com.seopseop.borad.Member.MemberRepository;
 import com.seopseop.borad.Post.Post;
 import com.seopseop.borad.Post.PostRepository;
-import com.seopseop.borad.Post.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -39,6 +37,5 @@ public class CommentController {
         comment.setContent(content);
         commentRepository.save(comment);
         return "redirect:/detail/"+a;
-
     }
 }
